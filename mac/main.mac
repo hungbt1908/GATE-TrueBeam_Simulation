@@ -1,0 +1,287 @@
+# -----------------------------------------------------------------------------
+# TRUEBEAM STX SIMULATION USING GATE 9.3
+# -----------------------------------------------------------------------------
+
+# ***
+# *** Authors   : BUI Tien Hung
+# *** Email     : hungbt1908@gmail.com
+# *** Institute : Institute for Nuclear Science and Technology
+# *** Date      : 12/16/2023
+# ***
+
+# -----------------------------------------------------------------------------
+# MAIN PROGRAM
+# -----------------------------------------------------------------------------
+/control/execute                                mac/verbose.mac
+/gate/geometry/setMaterialDatabase              data/GateMaterials.db
+
+# GEOMETRY
+# ********
+# World
+/gate/world/geometry/setXLength                 5.0 m
+/gate/world/geometry/setYLength                 5.0 m
+/gate/world/geometry/setZLength                 5.0 m
+/gate/world/setMaterial                         Air
+/gate/world/vis/setVisible                      1
+
+# Gantry (mylinac). 
+/gate/world/daughters/name                      mylinac
+/gate/world/daughters/insert                    box
+/gate/mylinac/setMaterial                       Air
+/gate/mylinac/geometry/setXLength               2.2 m  
+/gate/mylinac/geometry/setYLength               1.25 m
+/gate/mylinac/geometry/setZLength               2.2 m
+/gate/mylinac/placement/setRotationAngle        0.0 deg
+/gate/mylinac/placement/setRotationAxis         0 0 1 
+/gate/mylinac/placement/setTranslation          0.0 1000.0 0.0 mm
+/gate/mylinac/vis/setColor                      red
+
+#  Linac Head 
+/gate/mylinac/daughters/name                    myLinacHead
+/gate/mylinac/daughters/insert                  box
+/gate/myLinacHead/setMaterial                   Air
+/gate/myLinacHead/geometry/setXLength           1.5 m  
+/gate/myLinacHead/geometry/setYLength           1.2 m
+/gate/myLinacHead/geometry/setZLength           1.5 m
+/gate/myLinacHead/placement/setRotationAxis     0 1 0 
+/gate/myLinacHead/placement/setRotationAngle    0.0 deg
+/gate/myLinacHead/vis/setColor                  green
+/gate/myLinacHead/vis/setVisible                1
+
+# Mylar
+# Mylar is described in pdf file as a 0,004 inch  (0,1016 mm) thick foil
+# located at 44,3 cm from isocenter 
+/gate/myLinacHead/daughters/name                TBmylar
+/gate/myLinacHead/daughters/insert              box
+/gate/TBmylar/setMaterial                       Mylar
+/gate/TBmylar/geometry/setXLength               500.0 mm  
+/gate/TBmylar/geometry/setYLength               0.1016 mm  
+/gate/TBmylar/geometry/setZLength               500 mm
+/gate/TBmylar/placement/setTranslation          0.0 -557.0 0.0 mm
+/gate/TBmylar/vis/setColor                      magenta
+/gate/TBmylar/vis/forceSolid
+/gate/TBmylar/vis/setVisible                    1
+
+# Base Plate
+# Base plate is strongly simplified compared to mycarian
+# it is only a 0,6 inch thick cylinder with inner radius at  
+# Base plate is at 53,3 cm from isocenter and 46,7 cm from source
+# 469,7 from fake source
+/gate/myLinacHead/daughters/name                TB_BP
+/gate/myLinacHead/daughters/insert              cylinder
+/gate/TB_BP/geometry/setRmax                    302.26 mm
+/gate/TB_BP/geometry/setRmin                    115.57 mm
+/gate/TB_BP/geometry/setHeight                  15.24 mm
+/gate/TB_BP/placement/setTranslation            0.0 -459.38 0.0 mm
+/gate/TB_BP/placement/setRotationAxis           1 0 0
+/gate/TB_BP/placement/setRotationAngle          90 deg
+/gate/TB_BP/setMaterial                         AcceleratorPrimaryCollimatorMaterial
+/gate/TB_BP/vis/setColor                        red
+/gate/TB_BP/vis/forceSolid
+/gate/TB_BP/vis/setVisible                      1
+
+# Jaws
+# X1
+/gate/myLinacHead/daughters/name                X1
+/gate/myLinacHead/daughters/insert              box
+/gate/X1/setMaterial                            Jaw
+/gate/X1/geometry/setXLength                    134.62 mm
+/gate/X1/geometry/setYLength                    77.724 mm 
+/gate/X1/geometry/setZLength                    218.44 mm
+/gate/X1/placement/setTranslation               87.62218276849424 -403.23525174328853 0.0 mm
+/gate/X1/placement/setRotationAxis              0 0 1
+/gate/X1/placement/setRotationAngle             2.6607900833942186 deg
+/gate/X1/vis/setColor                           white
+/gate/X1/vis/forceSolid
+/gate/X1/vis/setVisible                         1
+# X2
+/gate/myLinacHead/daughters/name                X2
+/gate/myLinacHead/daughters/insert              box
+/gate/X2/setMaterial                            Jaw
+/gate/X2/geometry/setXLength                    134.62 mm
+/gate/X2/geometry/setYLength                    77.724 mm
+/gate/X2/geometry/setZLength                    218.44 mm
+/gate/X2/placement/setTranslation               -87.62218276849424 -403.23525174328853 0.0 mm
+/gate/X2/placement/setRotationAxis              0 0 1
+/gate/X2/placement/setRotationAngle             -2.6607900833942186 deg
+/gate/X2/vis/setColor                           white
+/gate/X2/vis/forceSolid
+/gate/X2/vis/setVisible                         1
+# Y1
+/gate/myLinacHead/daughters/name                Y1
+/gate/myLinacHead/daughters/insert              box
+/gate/Y1/setMaterial                            Jaw
+/gate/Y1/geometry/setXLength                    187.96 mm 
+/gate/Y1/geometry/setYLength                    77.724 mm 
+/gate/Y1/geometry/setZLength                    119.38 mm
+/gate/Y1/placement/setTranslation               0.0 -314.65022738322835 -75.57505432437033 mm
+/gate/Y1/placement/setRotationAxis              1 0 0
+/gate/Y1/placement/setRotationAngle             2.6063708540286914 deg
+/gate/Y1/vis/setColor                           white
+/gate/Y1/vis/forceSolid
+/gate/Y1/vis/setVisible                         1
+# Y2
+/gate/myLinacHead/daughters/name                Y2
+/gate/myLinacHead/daughters/insert              box
+/gate/Y2/setMaterial                            Jaw
+/gate/Y2/geometry/setXLength                    187.96 mm 
+/gate/Y2/geometry/setYLength                    77.724 mm 
+/gate/Y2/geometry/setZLength                    119.38 mm
+/gate/Y2/placement/setTranslation               0.0 -314.65022738322835 75.57505432437033 mm
+/gate/Y2/placement/setRotationAxis              1 0 0
+/gate/Y1/placement/setRotationAngle             2.6063708540286914 deg
+/gate/Y2/vis/setColor                           white
+/gate/Y2/vis/forceSolid
+/gate/Y2/vis/setVisible                         1
+
+# Phase space for gaga coordinate
+/gate/myLinacHead/daughters/name                gaga_vol
+/gate/myLinacHead/daughters/insert              box
+/gate/gaga_vol/setMaterial                      Air
+/gate/gaga_vol/geometry/setXLength              0.15 m
+/gate/gaga_vol/geometry/setYLength              0.001 mm
+/gate/gaga_vol/geometry/setZLength              0.15 m
+/gate/gaga_vol/vis/setColor                     blue
+/gate/gaga_vol/vis/forceSolid
+/gate/gaga_vol/vis/setVisible                   1
+
+# Located upper phantom to investigate field size
+/gate/world/daughters/name                      inPhantom
+/gate/world/daughters/insert                    box
+/gate/inPhantom/geometry/setXLength             400.0 mm
+/gate/inPhantom/geometry/setYLength             0.1 um
+/gate/inPhantom/geometry/setZLength             400.0 mm
+/gate/inPhantom/setMaterial                     Air
+/gate/inPhantom/placement/setTranslation        0.0 0.05 0.0 um
+/gate/inPhantom/vis/setColor                    green
+/gate/inPhantom/vis/forceSolid
+/gate/inPhantom/vis/setVisible                  1
+
+# Phantom
+/gate/world/daughters/name                      phantom
+/gate/world/daughters/insert                    box
+/gate/phantom/geometry/setXLength               30.1 cm
+/gate/phantom/geometry/setYLength               30 cm
+/gate/phantom/geometry/setZLength               30.1 cm
+/gate/phantom/placement/setTranslation          0 -150 0 mm
+/gate/phantom/setMaterial                       Water
+/gate/phantom/vis/setVisible                    1
+/gate/phantom/vis/setColor                      blue
+
+# OUTPUT
+# ******
+# PDD
+/gate/actor/addActor                            DoseActor  depthdose
+/gate/actor/depthdose/save                      output/depth-dose.txt
+/gate/actor/depthdose/attachTo    	        phantom
+/gate/actor/depthdose/stepHitType               random
+/gate/actor/depthdose/setPosition               0 0 0 cm
+/gate/actor/depthdose/setResolution             1 300 1
+/gate/actor/depthdose/setVoxelSize              1 1 1 mm
+/gate/actor/depthdose/saveEveryNSeconds         60
+/gate/actor/depthdose/enableEdep                true
+/gate/actor/depthdose/enableUncertaintyEdep     true
+/gate/actor/depthdose/enableDose                false
+/gate/actor/depthdose/enableUncertaintyDose     false
+/gate/actor/depthdose/enableNumberOfHits        false
+# OCR at 5 cm
+/gate/actor/addActor                            DoseActor  doseprofile1
+/gate/actor/doseprofile1/save                   output/OCR5.txt
+/gate/actor/doseprofile1/attachTo               phantom
+/gate/actor/doseprofile1/stepHitType            random
+/gate/actor/doseprofile1/setPosition            0 100 0 mm
+/gate/actor/doseprofile1/setResolution          301 1 1
+/gate/actor/doseprofile1/setSize                301 1 1 mm
+/gate/actor/doseprofile1/saveEveryNSeconds      60
+/gate/actor/doseprofile1/enableEdep             true
+/gate/actor/doseprofile1/enableUncertaintyEdep  true
+/gate/actor/doseprofile1/enableDose             false
+/gate/actor/doseprofile1/enableUncertaintyDose  false
+/gate/actor/doseprofile1/enableNumberOfHits     false
+
+# OCR at 10 cm
+/gate/actor/addActor                            DoseActor  doseprofile2
+/gate/actor/doseprofile2/save                   output/OCR10.txt
+/gate/actor/doseprofile2/attachTo               phantom
+/gate/actor/doseprofile2/stepHitType            random
+/gate/actor/doseprofile2/setPosition            0 50 0 mm
+/gate/actor/doseprofile2/setResolution          301 1 1
+/gate/actor/doseprofile2/setSize                301 1 1 mm
+/gate/actor/doseprofile2/saveEveryNSeconds      60
+/gate/actor/doseprofile2/enableEdep             true
+/gate/actor/doseprofile2/enableUncertaintyEdep  true
+/gate/actor/doseprofile2/enableDose             false
+/gate/actor/doseprofile2/enableUncertaintyDose  false
+/gate/actor/doseprofile2/enableNumberOfHits     false
+
+# OCR at 15 cm
+/gate/actor/addActor                            DoseActor  doseprofile3	
+/gate/actor/doseprofile3/save                   output/OCR15.txt
+/gate/actor/doseprofile3/attachTo               phantom
+/gate/actor/doseprofile3/stepHitType            random
+/gate/actor/doseprofile3/setPosition            0 0 0 mm
+/gate/actor/doseprofile3/setResolution          301 1 1
+/gate/actor/doseprofile3/setSize                301 1 1 mm
+/gate/actor/doseprofile3/saveEveryNSeconds      60
+/gate/actor/doseprofile3/enableEdep             true
+/gate/actor/doseprofile3/enableUncertaintyEdep  true
+/gate/actor/doseprofile3/enableDose             false
+/gate/actor/doseprofile3/enableUncertaintyDose  false
+/gate/actor/doseprofile3/enableNumberOfHits     false
+
+# OCR at 20 cm
+/gate/actor/addActor                            DoseActor  doseprofile4	
+/gate/actor/doseprofile4/save                   output/OCR20.txt
+/gate/actor/doseprofile4/attachTo               phantom
+/gate/actor/doseprofile4/stepHitType            random
+/gate/actor/doseprofile4/setPosition            0 -50 0 mm
+/gate/actor/doseprofile4/setResolution          301 1 1
+/gate/actor/doseprofile4/setSize                301 1 1 mm
+/gate/actor/doseprofile4/saveEveryNSeconds      60
+/gate/actor/doseprofile4/enableEdep             true
+/gate/actor/doseprofile4/enableUncertaintyEdep  true
+/gate/actor/doseprofile4/enableDose             false
+/gate/actor/doseprofile4/enableUncertaintyDose  false
+/gate/actor/doseprofile4/enableNumberOfHits     false
+
+# Statistic
+/gate/actor/addActor                            SimulationStatisticActor stat
+/gate/actor/stat/save                           output/Static.txt
+/gate/actor/stat/saveEveryNSeconds              60
+
+# PHYSICS
+# *******
+/gate/physics/addPhysicsList                    emstandard_opt3
+/gate/physics/Gamma/SetCutInRegion              world 1 mm
+/gate/physics/Electron/SetCutInRegion           world 1 mm
+/gate/physics/Positron/SetCutInRegion           world 1 mm
+
+# INITIALIZE
+# **********
+/gate/run/initialize
+
+# BEAM
+# ****
+/gate/source/addSource                          MyBeam phaseSpace
+/gate/source/MyBeam/addPhaseSpaceFile           /phsp/6FFF/6FFF.pt
+/gate/source/MyBeam/setParticleType             gamma
+/gate/source/MyBeam/setPytorchParams            /phsp/6FFF/6FFF.json
+/gate/source/MyBeam/setPytorchBatchSize         1000000
+/gate/source/MyBeam/attachTo                    gaga_vol
+/gate/source/MyBeam/useRandomSymmetry           true
+/gate/source/MyBeam/ignoreWeight                true
+
+# DAQ
+# ***
+/gate/random/setEngineName                      MersenneTwister # Select a random number engine
+/gate/random/setEngineSeed                      auto 
+/gate/application/setTimeSlice                  1. s
+/gate/application/setTimeStart                  0. s
+/gate/application/setTimeStop                   1. s
+/gate/application/setTotalNumberOfPrimaries     1000
+/gate/application/start
+#/gate/application/startDAQCluster
+
+# VISUALIZATION
+# *************
+#/control/execute                                mac/visu.mac
