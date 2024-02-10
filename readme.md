@@ -39,6 +39,10 @@
     cd /home/gate/jobsplitter
     make
     ```
+* Add new line to the condor script:
+    ```bash
+    getenv         = True  
+    ```
 * Split the main file
     ```bash
     /home/gate/jobsplitter/gjs -numberofsplits 10 -clusterplatform condor -condorscript /home/gate/jobsplitter/script/condor.script mac/main.mac
